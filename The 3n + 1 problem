@@ -1,0 +1,35 @@
+#include<iostream>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+int main ()
+{
+	//ofstream myfile;
+	//myfile.open("ans",ios::out);
+	long long int n,m;
+	while(cin>>n>>m&&n!=0&&m!=0){
+		bool f= false;
+		if(n<m){ f=true; swap(n,m); }
+		int ans=0;
+		for(long long int i=m;i<=n;i++){
+		     int cnt=0;
+			 long long int j=i;
+			 while(j>=1){
+				 if(j==1){cnt++; break;}
+			   if(j%2==1)j=j*3+1;
+			   else j/=2;
+			   cnt++;
+			 }
+			 if(cnt>ans)ans=cnt;
+		}
+		if(!f){
+			cout<<n<<" "<<m<<" "<<ans<<endl;
+			//myfile<<n<<" "<<m<<" "<<ans<<endl;
+		}
+		else {
+			cout<<m<<" "<<n<<" "<<ans<<endl;
+		//	myfile<<m<<" "<<n<<" "<<ans<<endl;
+		}
+	}
+	return 0;
+}
