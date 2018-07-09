@@ -1,0 +1,73 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<set>
+#include<map>
+#include<queue>
+#include<cmath>
+#include<algorithm>
+#include<iomanip>
+#include<deque>
+using namespace std;
+int dx[8]={-1,-1,-1,0,0,1,1,1};
+int dy[8]={-1,0,1,-1,1,-1,0,1};
+void Braka(){
+ ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+}
+int n,m; 
+char **v;
+bool **b;
+bool valid(int x,int y){
+  return (x>=0&&x<n&&y<m&&y>=0);
+}
+void DFS(int x,int y){
+   if(!valid(x,y)||b[x][y])return;
+   b[x][y]=true;
+   if(valid(x-1,y)&&v[x][y]==v[x-1][y])DFS(x-1,y);
+   if(valid(x,y-1)&&v[x][y]==v[x][y-1])DFS(x,y-1);
+   if(valid(x,y+1)&&v[x][y]==v[x][y+1])DFS(x,y+1);
+   if(valid(x+1,y)&&v[x][y]==v[x+1][y])DFS(x+1,y);
+}
+bool cmd(pair<char,int>p1,pair<char,int>p2){
+	 if(p2.second<p1.second)return true;
+	 if(p2.second==p1.second&&p1.first<p2.first)return true;
+	 return false;
+}
+int main()
+{
+	Braka();
+	int t; cin>>t;
+	for(int tt=1;tt<=t;tt++){
+		cin>>n>>m;
+		v=new char*[n];
+		b= new bool *[n];
+		for(int i=0;i<n;i++){  
+			v[i]=new char[m];
+			b[i]=new bool [m];
+		}
+		for(int i=0;i<n;i++)
+			for(int j=0;j<m;j++){
+				cin>>v[i][j];
+				b[i][j]=false; 
+			}
+			map<char,int>mp;
+			for(int i=0;i<n;i++)
+				for(int j=0;j<m;j++)
+					if(!b[i][j]){
+						//cout<<v[i][j]<<" ";
+					   mp[v[i][j]]++;
+					   DFS(i,j);
+					}
+					vector<pair<char,int>>ans(mp.size());
+					int i=0;
+					for(auto it=mp.begin();it!=mp.end();it++){
+						ans[i].first=it->first; ans[i].second=it->second;
+						i++;
+					}
+					sort(ans.begin(),ans.end(),cmd);
+					cout<<"World #"<<tt<<endl;
+					for(int i=0;i<ans.size();i++)
+						cout<<ans[i].first<<": "<<ans[i].second<<endl;
+	}
+	return 0;
+}
