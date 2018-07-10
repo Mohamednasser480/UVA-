@@ -1,0 +1,67 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<set>
+#include<map>
+#include<queue>
+#include<cmath>
+#include<algorithm>
+#include<iomanip>
+#include<fstream>
+using namespace std;
+vector<vector<int>>v;
+vector<bool>vi;
+void DFS(int node){
+	//if(vi[node])return;
+	//vi[node]=true;
+	for(int i=0;i<v[node].size();i++)
+		if(!vi[v[node][i]]){
+			vi[v[node][i]]=true;
+			DFS(v[node][i]);
+		}
+}
+int main()
+{
+	//ofstream myfile;
+	//myfile.open("ans.txt",ios::out);
+	int n;
+	while(cin>>n&&n){
+		v.clear();
+	v.resize(n+1);
+	vi.resize(n+1);
+	int node;
+	while(cin>>node&&node){
+		while(true){
+	   int tmp; cin>>tmp;
+	   if(!tmp)break;
+	   v[node].push_back(tmp);
+		}
+	}
+	int m; cin>>m;
+	vector<int>vm(m);
+	for(int i=0;i<m;i++)
+		cin>>vm[i];
+	vector<vector<int>>ans;
+	for(int i=0;i<m;i++){
+		for(int h=0;h<n+1;h++)vi[h]=false;
+		vector<int>tmp;
+		DFS(vm[i]);
+		for(int i=1;i<=n;i++)
+			if(!vi[i])tmp.push_back(i);
+		ans.push_back(tmp);
+	}
+	for(int i=0;i<m;i++){
+		cout<<ans[i].size();
+		//myfile<<ans[i].size();
+		if(ans[i].size()>0)cout<<" "/*,myfile<<" "*/; 
+		for(int j=0;j<ans[i].size();j++){
+			cout<<ans[i][j];
+			//myfile<<ans[i][j];
+			if(j+1<ans[i].size())cout<<" "/*,myfile<<" "*/;
+		}
+		cout<<endl;
+		//myfile<<endl;
+	  }
+	}
+    return 0 ;
+}
